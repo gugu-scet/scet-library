@@ -1,213 +1,152 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <base target="_top">
-    <title>Library Search</title>
-    <style>
-      body { font-family: Arial; padding: 20px; }
-      input, button, select { padding: 10px; margin: 5px 0; width: 300px; font-size: 14px; }
-      table { border-collapse: collapse; width: 100%; margin-top: 20px; }
-      th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
-      th { background: #f2f2f2; }
-      #suggestions { border: 1px solid #ccc; max-height: 150px; overflow-y: auto; position: absolute; background: white; width: 300px; z-index: 1000; }
-      #suggestions div { padding: 6px; cursor: pointer; }
-      #suggestions div:hover { background: #f0f0f0; }
-      #editForm { margin-top: 30px; border-top: 1px solid #aaa; padding-top: 20px; display: none; }
-    </style>
-  </head>
-  <body>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My Library</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: #f9f9f9;
+      color: #333;
+    }
+
+    header {
+      background: #4f46e5;
+      color: white;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    header img {
+      height: 40px;
+      margin-right: 10px;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 1.5rem;
+    }
+
+    .topbar {
+      display: flex;
+      gap: 1rem;
+      padding: 1rem 2rem;
+      background: white;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      flex-wrap: wrap;
+    }
+
+    .topbar input,
+    .topbar select,
+    .topbar button {
+      padding: 0.6rem 1rem;
+      font-size: 1rem;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
+    .topbar button {
+      background: #4f46e5;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    .topbar button:hover {
+      background: #4338ca;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 2rem;
+      background: white;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    th, td {
+      padding: 0.75rem;
+      text-align: left;
+      border-bottom: 1px solid #eee;
+    }
+
+    th {
+      background: #f0f0f0;
+      font-weight: 600;
+    }
+
+    tr:hover {
+      background: #f9f9ff;
+    }
+
+    .edit-btn {
+      color: #4f46e5;
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
     <div style="display: flex; align-items: center;">
-      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRS8rnGw_x-e9LYskTX4vtAdiIJQjm1197ljw&s" alt="Image" style="width: 100px; height: auto; margin-right: 10px;">
-      <span style="font-size: 50px; color: darkblue;">Satyachetana Educational Trust</span>
+      <img src="logo.png" alt="Logo">
+      <h1>My Library</h1>
     </div>
+    <button onclick="addBook()">➕ Add Book</button>
+  </header>
 
-    <div>
-      <h2>📚 Library Search</h2>
-    </div>
+  <div class="topbar">
+    <input type="text" id="searchBox" placeholder="Search books...">
+    <select id="categoryFilter">
+      <option value="">All Categories</option>
+      <option value="Vedas">Vedas</option>
+      <option value="Upanishads">Upanishads</option>
+      <option value="Puranas">Puranas</option>
+    </select>
+    <button onclick="searchBooks()">🔍 Search</button>
+  </div>
 
-    <div style="position: relative;">
-      <input type="text" id="query" placeholder="Search by title..." oninput="suggest(this.value)">
-      <div id="suggestions"></div>
-    </div>
-    <button onclick="search()">Search</button>
+  <table>
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Author</th>
+        <th>Category</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody id="bookTable">
+      <tr>
+        <td>Bhagavad Gita</td>
+        <td>Vyasa</td>
+        <td>Gita</td>
+        <td><button class="edit-btn">✏️ Edit</button></td>
+      </tr>
+      <!-- Add more rows dynamically -->
+    </tbody>
+  </table>
 
-    <div id="result"></div>
+  <script>
+    function searchBooks() {
+      const searchValue = document.getElementById('searchBox').value.toLowerCase();
+      const filterValue = document.getElementById('categoryFilter').value;
 
-    <!-- Edit Form -->
-    <div id="editForm">
-      <h3>Edit Book Record</h3>
-      <input type="text" id="slno" placeholder="Sl. No" disabled>
+      // For now, this is a stub. You'd replace this with an actual fetch() call to your API.
+      alert(`Searching for: ${searchValue}, Category: ${filterValue}`);
+    }
 
-      <input type="text" id="language" placeholder="Language">
-      <input type="text" id="bookname" placeholder="Book Name">
-      <input type="text" id="author" placeholder="Author">
-      <input type="text" id="publication" placeholder="Publication">
-      <input type="text" id="edition" placeholder="Edition">
-      <input type="text" id="isbn" placeholder="ISBN">
-      <input type="text" id="price" placeholder="Price">
-      <input type="text" id="noOfBooks" placeholder="No. of Books">
-      <input type="text" id="bookNos" placeholder="Existing Book No">
-      <input type="text" id="category" placeholder="Category">
-      <input type="text" id="location" placeholder="Location">
+    function addBook() {
+      // You could open a modal or link to a form
+      alert("Redirecting to Add Book form...");
+    }
+  </script>
 
-      <button onclick="saveChanges()">Save Changes</button>
-    </div>
-    
-    <div id="addForm" style="margin-top: 30px; border: 1px solid #ccc; padding: 20px;">
-      <h3>Add New Book Entry</h3>
-
-      <input type="text" id="add_language" placeholder="Language">
-      <input type="text" id="add_bookname" placeholder="Book Name">
-      <input type="text" id="add_author" placeholder="Author">
-      <input type="text" id="add_publication" placeholder="Publication">
-      <input type="text" id="add_edition" placeholder="Edition">
-      <input type="text" id="add_isbn" placeholder="ISBN">
-      <input type="text" id="add_price" placeholder="Price">
-      <input type="text" id="add_noOfBooks" placeholder="No. of Books">
-      <input type="text" id="add_bookNos" placeholder="Existing Book No">
-      <input type="text" id="add_category" placeholder="Category">
-      <input type="text" id="add_location" placeholder="Location">
-
-      <button onclick="submitNewBook()">Add Book</button>
-    </div>
-
-
-    <script>
-      let titles = [];
-
-      google.script.run.withSuccessHandler(data => { titles = data; }).getTitles();
-
-      function suggest(text) {
-        const list = document.getElementById("suggestions");
-        list.innerHTML = "";
-        if (text.length < 2) return;
-
-        const matches = titles.filter(title => title.toLowerCase().includes(text.toLowerCase())).slice(0, 10);
-        matches.forEach(match => {
-          const div = document.createElement("div");
-          div.textContent = match;
-          div.onclick = () => {
-            document.getElementById("query").value = match;
-            list.innerHTML = "";
-            search();
-          };
-          list.appendChild(div);
-      });
-      }
-      function submitNewBook() {
-        const bookData = [
-        document.getElementById("add_language").value,
-        document.getElementById("add_bookname").value,
-        document.getElementById("add_author").value,
-        document.getElementById("add_publication").value,
-        document.getElementById("add_edition").value,
-        document.getElementById("add_isbn").value,
-        document.getElementById("add_price").value,
-        document.getElementById("add_noOfBooks").value,
-        document.getElementById("add_bookNos").value,
-        document.getElementById("add_category").value,
-        document.getElementById("add_location").value
-        ];
-
-  
-
-        google.script.run.withSuccessHandler(msg => {
-        alert(msg);
-        clearAddForm();
-        search(); // refresh search results if needed
-        }).addNewBook(bookData);
-      }
-
-      function clearAddForm() {
-        [
-        "add_language", "add_bookname", "add_author", "add_publication", "add_edition",
-        "add_isbn", "add_price", "add_noOfBooks", "add_bookNos", "add_category", "add_location"
-        ].forEach(id => document.getElementById(id).value = "");
-      }
-
-      function search() {
-        const q = document.getElementById("query").value;
-        document.getElementById("suggestions").innerHTML = "";
-        google.script.run.withSuccessHandler(showResults).searchBooks(q);
-      }
-
-      function showResults(data) {
-        const resultDiv = document.getElementById("result");
-        if (data.results.length === 0) {
-          resultDiv.innerHTML = "<p>No results found.</p>";
-          return;
-        }
-
-        let html = "<table><tr>";
-        data.headers.forEach(h => html += `<th>${h}</th>`);
-        html += "<th>Action</th></tr>";
-
-        data.results.forEach(row => {
-          html += "<tr>";
-          row.forEach(cell => html += `<td>${cell}</td>`);
-          console.log("Row length:", row.length, row);
-          html += `<td><button class="editBtn" data-row='${JSON.stringify(row).replace(/'/g, "&apos;")}'>Edit</button></td>`;
-          html += "</tr>";
-        });
-
-        html += "</table>";
-        resultDiv.innerHTML = html;
-        document.querySelectorAll(".editBtn").forEach(btn => {  
-          btn.addEventListener("click", function () {
-            const row = JSON.parse(this.getAttribute("data-row").replace(/&apos;/g, "'"));
-            editRow(row);
-          });
-        });
-
-      }
-      function editRow(row) {
-        // Ensure row has all 12 fields (pad with empty strings)
-        while (row.length < 12) {
-          row.push("");
-        }
-
-        document.getElementById("editForm").style.display = "block";
-        document.getElementById("slno").value = row[0] || "";
-        document.getElementById("language").value = row[1] || "";
-        document.getElementById("bookname").value = row[2] || "";
-        document.getElementById("author").value = row[3] || "";
-        document.getElementById("publication").value = row[4] || "";
-        document.getElementById("edition").value = row[5] || "";
-        document.getElementById("isbn").value = row[6] || "";
-        document.getElementById("price").value = row[7] || "";
-        document.getElementById("noOfBooks").value = row[8] || "";
-        document.getElementById("bookNos").value = row[9] || "";
-        document.getElementById("category").value = row[10] || "";
-        document.getElementById("location").value = row[11] || "";
-
-        window.scrollTo(0, document.body.scrollHeight);
-      }
-
-
-
-      function saveChanges() {
-        const updated = [
-        document.getElementById("slno").value,
-        document.getElementById("language").value,
-        document.getElementById("bookname").value,
-        document.getElementById("author").value,
-        document.getElementById("publication").value,
-        document.getElementById("edition").value,
-        document.getElementById("isbn").value,
-        document.getElementById("price").value,
-        document.getElementById("noOfBooks").value,
-        document.getElementById("bookNos").value,
-        document.getElementById("category").value,
-        document.getElementById("location").value
-        ];
-
-        google.script.run.withSuccessHandler(msg => {
-        alert(msg);
-        document.getElementById("editForm").style.display = "none";
-        search();
-        }).updateBook(updated);
-      }
-
-    </script>
-  </body>
+</body>
 </html>
