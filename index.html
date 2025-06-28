@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My Library</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: #f9f9f9;
+      color: #333;
+    }
+
+    header {
+      background: #4f46e5;
+      color: white;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    header img {
+      height: 40px;
+      margin-right: 10px;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 1.5rem;
+    }
+
+    .topbar {
+      display: flex;
+      gap: 1rem;
+      padding: 1rem 2rem;
+      background: white;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      flex-wrap: wrap;
+    }
+
+    .topbar input,
+    .topbar select,
+    .topbar button {
+      padding: 0.6rem 1rem;
+      font-size: 1rem;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
+    .topbar button {
+      background: #4f46e5;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    .topbar button:hover {
+      background: #4338ca;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 2rem;
+      background: white;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    th, td {
+      padding: 0.75rem;
+      text-align: left;
+      border-bottom: 1px solid #eee;
+    }
+
+    th {
+      background: #f0f0f0;
+      font-weight: 600;
+    }
+
+    tr:hover {
+      background: #f9f9ff;
+    }
+
+    .edit-btn {
+      color: #4f46e5;
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div style="display: flex; align-items: center;">
+      <img src="logo.png" alt="Logo">
+      <h1>My Library</h1>
+    </div>
+    <button onclick="addBook()">➕ Add Book</button>
+  </header>
+
+  <div class="topbar">
+    <input type="text" id="searchBox" placeholder="Search books...">
+    <select id="categoryFilter">
+      <option value="">All Categories</option>
+      <option value="Vedas">Vedas</option>
+      <option value="Upanishads">Upanishads</option>
+      <option value="Puranas">Puranas</option>
+    </select>
+    <button onclick="searchBooks()">🔍 Search</button>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Author</th>
+        <th>Category</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody id="bookTable">
+      <tr>
+        <td>Bhagavad Gita</td>
+        <td>Vyasa</td>
+        <td>Gita</td>
+        <td><button class="edit-btn">✏️ Edit</button></td>
+      </tr>
+      <!-- Add more rows dynamically -->
+    </tbody>
+  </table>
+
+  <script>
+    function searchBooks() {
+      const searchValue = document.getElementById('searchBox').value.toLowerCase();
+      const filterValue = document.getElementById('categoryFilter').value;
+
+      // For now, this is a stub. You'd replace this with an actual fetch() call to your API.
+      alert(`Searching for: ${searchValue}, Category: ${filterValue}`);
+    }
+
+    function addBook() {
+      // You could open a modal or link to a form
+      alert("Redirecting to Add Book form...");
+    }
+  </script>
+
+</body>
+</html>
